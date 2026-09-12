@@ -17,12 +17,6 @@ from PyQt6.QtWidgets import (
 )
 
 PIECE_SYMBOLS = {
-    "K": "♔",
-    "Q": "♕",
-    "R": "♖",
-    "B": "♗",
-    "N": "♘",
-    "P": "♙",
     "k": "♚",
     "q": "♛",
     "r": "♜",
@@ -103,7 +97,7 @@ class ChessWindow(QMainWindow):
                 button.setText("")
             else:
                 symbol = piece.symbol()
-                button.setText(PIECE_SYMBOLS[symbol])
+                button.setText(PIECE_SYMBOLS[symbol.lower()])
 
             file_number = chess.square_file(square)
             rank_number = chess.square_rank(square)
@@ -117,15 +111,28 @@ class ChessWindow(QMainWindow):
             elif square in legal_destinations:
                 color = "#90c978"
 
-            button.setStyleSheet(
-                f"""
-                QPushButton {{
-                    background-color: {color};
-                    border: none;
-                    font-size: 42px;
-                }}
-                """
-            )
+            if symbol.islower():
+                button.setStyleSheet(
+                    f"""
+                    QPushButton {{
+                        background-color: {color};
+                        color: black;
+                        border: none;
+                        font-size: 42px;
+                    }}
+                    """
+                )
+            else:   
+                button.setStyleSheet(
+                    f"""
+                    QPushButton {{
+                        background-color: {color};
+                        color: white;
+                        border: none;
+                        font-size: 42px;
+                    }}
+                    """
+                )
 
     def reset_game(self):
         self.board.reset()
